@@ -5,7 +5,7 @@ import termcloud
 
 app = Flask(__name__)
 
-@app.route('/index')
+@app.route('/')
 def root():
     return app.send_static_file('index.html')
 
