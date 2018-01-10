@@ -8,7 +8,7 @@ import io
 
 from os import path
 
-def generate(text):
+def generate(text, font_path):
     documents = []
     buf = io.StringIO(text)
     for line in buf:
@@ -59,7 +59,7 @@ def generate(text):
         #print "hsl(0, 0%%, %d%%)" % random.randint(60, 100)
         return "hsl(0, 0%, 40%)"
 
-    wordcloud = WordCloud(font_path='/Library/Fonts/Tahoma.ttf',
+    wordcloud = WordCloud(font_path=font_path,
                             stopwords=STOPWORDS,
                             background_color='white',
                             width=1000,

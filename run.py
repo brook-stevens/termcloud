@@ -2,6 +2,7 @@ import io
 import os
 from flask import Flask, send_file, request
 import termcloud
+import datetime
 
 app = Flask(__name__)
 
@@ -12,13 +13,15 @@ def root():
 @app.route("/termcloud", methods=['POST'])
 def simple():
     text = request.form['source-text']
-    image = termcloud.generate(text=text)
+    image = termcloud.generate(text=text, font_path="fonts/lato-v14-latin-regular.ttf")
     output = io.BytesIO()
     image.save(output, format='PNG')
 
     return send_file(
         io.BytesIO(output.getvalue()),
-        attachment_filename='logo.png',
+        attachment_filename="termcloud.png",
+        last_modified=datetime.datetime.now(),
+        cache_timeout=-1,
         mimetype='image/png'
     )
 
