@@ -8,7 +8,7 @@ import io
 
 from os import path
 
-def generate(text, font_path):
+def generate(text, font_path, no_lemmatization, width, height):
     documents = []
     buf = io.StringIO(text)
     for line in buf:
@@ -19,8 +19,6 @@ def generate(text, font_path):
     engstopwords = stopwords.words('english')
     engstopwords.append("n't")
     engstopwords.append("ve")
-    skipLemmas = ['pos']
-    #tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 
     all_words = []
 
@@ -30,7 +28,7 @@ def generate(text, font_path):
         lemmatizer = WordNetLemmatizer()
         tokens_cleaned = []
         for tok in tokens:
-            if tok.lower() in skipLemmas:
+            if tok.lower() in no_lemmatization:
                 tokens_cleaned.append(lemmatizer.lemmatize(tok))
             else:
                 tokens_cleaned.append(tok)
@@ -62,8 +60,8 @@ def generate(text, font_path):
     wordcloud = WordCloud(font_path=font_path,
                             stopwords=STOPWORDS,
                             background_color='white',
-                            width=1000,
-                            height=1200,
+                            width=width,
+                            height=height,
                             #mask=mask,
                             max_font_size=48,
                           normalize_plurals=False,

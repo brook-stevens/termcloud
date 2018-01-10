@@ -11,9 +11,24 @@ def root():
     return app.send_static_file('index.html')
 
 @app.route("/termcloud", methods=['POST'])
-def simple():
+def posttermcloud():
     text = request.form['source-text']
-    image = termcloud.generate(text=text, font_path="fonts/lato-v14-latin-regular.ttf")
+    height = int(request.form['height'])
+    width = int(request.form['width'])
+    no_lemmatization_str = request.form['no_lemmatization']
+    if no_lemmatization_str != "":
+        no_lemmatization = no_lemmatization_str.split()
+    else:
+        no_lemmatization = []
+    font = request.form['font']
+    if(font.lower() == "lato"):
+        font_path = "fonts/lato-v14-latin-regular.ttf"
+
+    image = termcloud.generate(text=text,
+                               height=height,
+                               width=width,
+                               no_lemmatization=no_lemmatization,
+                               font_path=font_path)
     output = io.BytesIO()
     image.save(output, format='PNG')
 
